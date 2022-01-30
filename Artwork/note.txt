@@ -1,0 +1,5 @@
+ToDo:
+
+-Ball sprite
+-Background
+-Platform sprite
