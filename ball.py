@@ -9,11 +9,11 @@ class Ball(pygame.sprite.Sprite):
         pygame.draw.circle(self.image,(255,255,0),(25,25),25,0)
         self.rect = self.image.get_rect()
 
-        self.rect.top,self.rect.left = 100,25
+        self.rect.left,self.rect.top = 25,100
         self.speed = [2,2]
         self.isAlive = True
 
-    def move(self):
+    def move(self) -> None:
         self.rect = self.rect.move(self.speed)
 
         if self.rect.left <= 0 or self.rect.right >= 640:
