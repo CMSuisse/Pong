@@ -10,7 +10,7 @@ screen.fill((200,200,200))
 pygame.display.set_caption("Pong")
 Clock = pygame.time.Clock()
 
-balls_remaining = 1
+balls_remaining = 3
 points = 0
 isGameOver = False
 current_ball = pygame.sprite.Group()
@@ -18,11 +18,6 @@ trail = pygame.sprite.Group()
 current_ball.add(Ball())
 platform = Platform()
 font = pygame.font.Font(pygame.font.get_default_font(),30)
-
-#Add a point system that adds a point when the ball touches the top of the screen
-#Make it visually obvious, how many points the player has and also how many balls it has left
-#Trail renderer for the path the ball took. It should slowly grow smaller and dimmer.
-
 
 class GameController():
     @staticmethod

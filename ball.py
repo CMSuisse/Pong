@@ -10,7 +10,7 @@ class Ball(pygame.sprite.Sprite):
         pygame.draw.circle(self.image,(220,220,0),(25,25),25,0)
         self.rect = self.image.get_rect()
 
-        self.rect.left,self.rect.top = 25,100
+        self.rect.left,self.rect.top = 300,50
         self.speed = [2,2]
         self.isAlive = True
 
