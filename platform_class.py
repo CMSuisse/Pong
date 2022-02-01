@@ -10,7 +10,7 @@ class Platform(pygame.sprite.Sprite):
 
         self.rect.left, self.rect.top = 300,550
 
-    def move(self, target: int) -> None:
+    def move(self, target: int):
         if target == None:
             return
 

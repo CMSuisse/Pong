@@ -16,7 +16,7 @@ class Ball(pygame.sprite.Sprite):
 
         self.framesAlive = 0
 
-    def move(self) -> None or int:
+    def move(self):
         self.rect = self.rect.move(self.speed)
 
         if self.framesAlive % 1000 == 0 and self.framesAlive != 0:

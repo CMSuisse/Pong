@@ -2,6 +2,7 @@ import pygame
 from ball import Ball
 from platform_class import Platform
 from trail_ball import TrailBall
+from game_over import game_over
 
 pygame.init()
 screen = pygame.display.set_mode([640,640])
@@ -9,8 +10,9 @@ screen.fill((200,200,200))
 pygame.display.set_caption("Pong")
 Clock = pygame.time.Clock()
 
-balls_remaining = 3
+balls_remaining = 1
 points = 0
+isGameOver = False
 current_ball = pygame.sprite.Group()
 trail = pygame.sprite.Group()
 current_ball.add(Ball())
@@ -42,7 +44,7 @@ class GameController():
 
     @staticmethod
     def __ballUpdate():
-        global current_ball,balls_remaining,points
+        global current_ball,balls_remaining,points,isGameOver
         for ball in current_ball:
             if ball.isAlive:
                 if ball.move() == 1:
@@ -54,8 +56,7 @@ class GameController():
                 if balls_remaining > 0: #Has the player balls left?
                     current_ball.add(Ball()) #If yes, spawn a new one
                 else: #If no, it's game over
-                    pass
-                    #Game Over goes here
+                    isGameOver = True
 
     @staticmethod
     def __updateTrail():
@@ -93,9 +94,11 @@ while active:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             active = False
-
-    Clock.tick(60)
-    GameController.doUpdate()
+    if not isGameOver:
+        Clock.tick(60)
+        GameController.doUpdate()
+    else:
+        game_over(points,screen)
     pygame.display.flip()
 
 pygame.quit()
