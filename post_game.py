@@ -1,7 +1,7 @@
 import pygame
 pygame.font.init()
 
-font = pygame.font.Font(pygame.font.get_default_font(),50)
+font = pygame.font.Font(pygame.font.get_default_font(), 50)
 def game_over(points, screen, new_highscore): #Displaying total points on the screen
 
     screen.fill((200,200,200))

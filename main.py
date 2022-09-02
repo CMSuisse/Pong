@@ -3,9 +3,13 @@ from ball import Ball
 from platform_class import Platform
 from trail_ball import TrailBall
 from post_game import game_over, handle_highscore
+from pre_game import render_menu
+from button_class import Button
 
 pygame.init() #Initializes both the font renderer and the mixer
-screen = pygame.display.set_mode([640, 640])
+screen_x_length = 640
+screen_y_length = 640
+screen = pygame.display.set_mode([screen_x_length, screen_y_length])
 screen.fill((200, 200, 200))
 pygame.display.set_caption("Pong")
 Clock = pygame.time.Clock()
@@ -20,10 +24,20 @@ NewBall.set_volume(1)
 YouLost = pygame.mixer.Sound("Sounds/YouLost.wav")
 YouLost.set_volume(1)
 
+#Initializes buttons for use in menu scen
+buttons = []
+button_font = pygame.font.Font(pygame.font.get_default_font(), 20)
+start_button_text = button_font.render("START", False, (0, 0, 0))
+start_button_center_coordinates = screen_x_length/2, screen_y_length/2
+start_button = Button(start_button_center_coordinates[0], start_button_center_coordinates[1], 200, 50, (0, 255, 0), start_button_text, "start_button")
+buttons.append(start_button)
+
+#Initializes variables
 balls_remaining = 3
 points = 0
 isGameOver = False
 highscore_updated = False
+game_started = False
 current_ball = pygame.sprite.Group()
 trail = pygame.sprite.Group()
 current_ball.add(Ball())
@@ -31,6 +45,11 @@ platform = Platform()
 font = pygame.font.Font(pygame.font.get_default_font(), 30)
 
 class GameController():
+    @staticmethod
+    def do_menu_scene():
+        global game_started
+        game_started = render_menu(screen, buttons)
+
     @staticmethod
     def doUpdate():
         global points
@@ -87,7 +106,7 @@ class GameController():
 
     @staticmethod
     def __getMouseX():
-        return pygame.mouse.get_pos()[0] #If the mouse is inside the window -> return the x-position of the mouse
+        return pygame.mouse.get_pos()[0] #Return x position of the mouse
 
     @staticmethod
     def __doCollisonLogic():
@@ -105,6 +124,10 @@ while active:
         if event.type == pygame.QUIT:
             active = False
     Clock.tick(60)
+
+    if not game_started:
+        GameController.do_menu_scene()
+        continue
     if not isGameOver:
         GameController.doUpdate()
     else:
