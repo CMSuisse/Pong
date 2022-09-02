@@ -2,11 +2,11 @@ import pygame
 from ball import Ball
 from platform_class import Platform
 from trail_ball import TrailBall
-from game_over import game_over #That isn't confusing at all
+from post_game import game_over, handle_highscore
 
 pygame.init() #Initializes both the font renderer and the mixer
-screen = pygame.display.set_mode([640,640])
-screen.fill((200,200,200))
+screen = pygame.display.set_mode([640, 640])
+screen.fill((200, 200, 200))
 pygame.display.set_caption("Pong")
 Clock = pygame.time.Clock()
 
@@ -23,33 +23,34 @@ YouLost.set_volume(1)
 balls_remaining = 3
 points = 0
 isGameOver = False
+highscore_updated = False
 current_ball = pygame.sprite.Group()
 trail = pygame.sprite.Group()
 current_ball.add(Ball())
 platform = Platform()
-font = pygame.font.Font(pygame.font.get_default_font(),30)
+font = pygame.font.Font(pygame.font.get_default_font(), 30)
 
 class GameController():
     @staticmethod
     def doUpdate():
         global points
 
-        screen.fill((200,200,200)) #Start with a freshly filled in screen
+        screen.fill((200, 200, 200)) #Start with a freshly filled in screen
         GameController.__ballUpdate()
         GameController.updateTrail()
         GameController.__platformUpdate()
         GameController.__doCollisonLogic()
 
-        output_text = font.render("Points: " + str(points) + "      " + "Lives: " + str(balls_remaining),False,(0,0,0))
+        output_text = font.render("Points: {} Lives: {}".format(str(points), str(balls_remaining)), False, (0, 0, 0))
 
         trail.draw(screen)
         current_ball.draw(screen)
         screen.blit(platform.image,platform.rect)
-        screen.blit(output_text,(10,10))
+        screen.blit(output_text, (10, 10))
 
     @staticmethod
     def __ballUpdate():
-        global current_ball,balls_remaining,points,isGameOver
+        global current_ball, balls_remaining, points, isGameOver
         for ball in current_ball:
             if ball.isAlive:
                 if ball.move() == 1: #The function will return 1 when the ball hits the ceiling
@@ -86,8 +87,7 @@ class GameController():
 
     @staticmethod
     def __getMouseX():
-        if pygame.mouse.get_focused():
-            return pygame.mouse.get_pos()[0] #If the mouse is inside the window -> return the x-position of the mouse
+        return pygame.mouse.get_pos()[0] #If the mouse is inside the window -> return the x-position of the mouse
 
     @staticmethod
     def __doCollisonLogic():
@@ -108,7 +108,9 @@ while active:
     if not isGameOver:
         GameController.doUpdate()
     else:
-        game_over(points,screen)
+        if not highscore_updated:
+            highscore_updated, new_highscore = handle_highscore(points)
+        game_over(points, screen, new_highscore)
         GameController.updateTrail()
         trail.draw(screen)
     pygame.display.flip()
