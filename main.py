@@ -51,7 +51,7 @@ text_elements = [game_over_font.render("Congrats! You made", False ,(0, 0, 0)),
 text_elements_rects = []
 
 #Initializes other variables and constants
-balls_remaining = 1
+balls_remaining = 3
 points = 0
 is_game_over = False
 highscore_updated = False
