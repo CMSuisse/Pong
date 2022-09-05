@@ -95,10 +95,10 @@ class TrailBall(sprite.Sprite):
         self.origin_pos = origin_pos
 
 class Button(sprite.Sprite):
-    def __init__(self, button_pos, button_length, button_color, button_text, button_name):
+    def __init__(self, button_pos, button_size, button_color, button_text, button_name):
         sprite.Sprite.__init__(self)
 
-        self.image = Surface(button_length)
+        self.image = Surface(button_size)
         self.image.fill(button_color)
         self.rect = self.image.get_rect()
         #Making the centerx and centery coordinates correspond to the inputed coordinates is more intuitive
@@ -108,7 +108,7 @@ class Button(sprite.Sprite):
 
         button_text_rect = button_text.get_rect()
         #Centering the button text inside the button
-        button_text_rect.centerx, button_text_rect.centery = button_length[0]/2, button_length[1]/2
+        button_text_rect.centerx, button_text_rect.centery = button_size[0]/2, button_size[1]/2
 
         self.image.blit(button_text, button_text_rect)
     
