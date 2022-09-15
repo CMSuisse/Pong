@@ -61,7 +61,7 @@ class GameController():
     def initialize_new_game():
         global is_game_over, highscore_updated, points, balls_remaining, current_ball, trail, platform, game_started, text_elements, text_elements_rects
         #Initializes other variables and constants
-        balls_remaining = 1
+        balls_remaining = 3
         points = 0
         is_game_over = False
         highscore_updated = False
